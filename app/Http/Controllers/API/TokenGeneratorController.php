@@ -5,8 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Auth\NewTokenRequest;
 use App\Models\User;
-use DateInterval;
-use DateMalformedIntervalStringException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -22,10 +20,12 @@ class TokenGeneratorController extends Controller
      */
     public function generateToken(NewTokenRequest $request): JsonResponse
     {
-        try {
-            $authUser = $this->checkAuth($request->email);
+        $validated = $request->validated();
 
-            $expiration = now()->add(new DateInterval(sprintf("PT%dM", self::API_TTL_MINUTES)));
+        try {
+            $authUser = $this->checkAuth($validated['email']);
+
+            $expiration = now()->addMinutes(self::API_TTL_MINUTES);
 
             $token = $authUser->createToken(
                 sprintf("%s%d", self::API_TOKEN_PREFIX, time()),
@@ -36,9 +36,6 @@ class TokenGeneratorController extends Controller
             return response()->json(['token' => $token->plainTextToken]);
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Unauthorized'], 401);
-        } catch (DateMalformedIntervalStringException $e) {
-            Log::error("Failed to generate token: {error}", ["error" => $e->getMessage()]);
-            return response()->json(['error' => 'Internal server error'], 500);
         }
     }
 

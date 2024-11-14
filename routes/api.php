@@ -12,5 +12,9 @@ Route::namespace('App\Http\Controllers\API')
             Route::get('/test', static function () {
                 response()->json(['message' => 'Hello World!']);
             });
+
+            Route::prefix('/historical')->group(static function () {
+                Route::get('/', 'HistoricalDataController@getHistoricalData')->name('api.historical.get');
+            });
         });
     });
