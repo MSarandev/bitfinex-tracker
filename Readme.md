@@ -5,6 +5,7 @@
 Note: The whole app is docker based, nothing is installed and/or operated on from the local machine!
 
 ## Setup guide
+
 1. `cp .env.example .env`
 2. Change vars as needed
 3. `docker network create bitfinex_tracker_net`
@@ -19,5 +20,22 @@ Note: The whole app is docker based, nothing is installed and/or operated on fro
 The app is available at: http://localhost:8088/ (change to your custom port)
 
 ## Auth
+
 Auth is provided by "Laravel Breeze" <br>
 All emails are captured by `MailHog`, UI dash: http://localhost:8025/
+
+<br>
+
+The app requires a registration, please register at `http://localhost:8088/register` first <br>
+After registration, you will be redirected to the login page, login, and you will be redirected to the dashboard
+
+<br>
+
+All subsequent API calls require a token. Get one:
+
+```text
+POST localhost:8088/api/v1/token
+{email, pass -> form-data}
+```
+
+From there-on, use the token string as a `Bearer token` auth in subsequent requests
