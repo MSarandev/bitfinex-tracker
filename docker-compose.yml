@@ -1,0 +1,50 @@
+services:
+    app:
+        build:
+            context: docker
+            dockerfile: app/Dockerfile
+        container_name: bitfinex_app
+        volumes:
+            - ".:/var/www/html"
+        working_dir: /var/www/html
+        networks:
+            - bitfinex_tracker_net
+    web:
+        build:
+            context: docker
+            dockerfile: web/Dockerfile
+        container_name: bitfinex_web
+        working_dir: /var/www/html
+        ports:
+            - ${APP_EXPOSED_PORT}:80
+        volumes:
+            - ".:/var/www/html"
+        networks:
+            - bitfinex_tracker_net
+    mailhog:
+        image: mailhog/mailhog
+        container_name: bitfinex_mailer
+        ports:
+            - ${MAIL_PORT}:1025
+            - ${MAILHOG_WEB_EXPOSED_PORT}:8025
+        networks:
+            - bitfinex_tracker_net
+    database:
+        build:
+            context: docker
+            dockerfile: db/Dockerfile
+            args:
+                - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+                - DB_USER=${DB_USERNAME}
+                - DB_PASSWORD=${DB_PASSWORD}
+                - DB_DATABASE=${DB_DATABASE}
+        container_name: bitfinex_db
+        volumes:
+            - ./docker/db/data_store:/var/lib/mysql
+        ports:
+            - ${DB_EXPOSED_PORT}:3306
+        networks:
+            - bitfinex_tracker_net
+networks:
+    bitfinex_tracker_net:
+        external: true
