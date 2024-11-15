@@ -24,10 +24,13 @@ class NewPercentDeltaRequest extends FormRequest
      */
     public function rules(): array
     {
+        $acceptedSymbols = config('bitfinex.symbols');
+
         return [
             'timeframe_flags' => 'required|in:'.implode(',', self::TIMEFRAME_FLAGS),
             'timeframe_value' => 'required|numeric|min:1',
             'percent_change' => 'required|numeric|min:0',
+            'symbol' => 'required|string|in:'.implode(',', $acceptedSymbols),
         ];
     }
 

@@ -17,7 +17,8 @@ class PercentDelta extends Model
         'timeframe_flag',
         'timeframe_value',
         'percent_change',
-        'active'
+        'active',
+        'symbol'
     ];
 
     protected $hidden = [

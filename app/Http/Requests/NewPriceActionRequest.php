@@ -24,9 +24,12 @@ class NewPriceActionRequest extends FormRequest
      */
     public function rules(): array
     {
+        $acceptedSymbols = config('bitfinex.symbols');
+
         return [
             'trigger' => 'required|in:'.implode(',', self::ALLOWED_TRIGGERS),
             'price' => 'required|numeric',
+            'symbol' => 'required|string|in:'.implode(',', $acceptedSymbols),
         ];
     }
 

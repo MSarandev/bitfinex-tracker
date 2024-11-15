@@ -16,7 +16,8 @@ class PriceAction extends Model
         'user_id',
         'trigger',
         'price',
-        'active'
+        'active',
+        'symbol'
     ];
 
     protected $hidden = [
