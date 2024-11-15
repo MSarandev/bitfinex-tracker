@@ -32,5 +32,23 @@ Route::namespace('App\Http\Controllers\API')
                 Route::delete('/{entry_id}', 'PriceActionController@deletePriceAction')
                     ->name('api.price-action.delete');
             });
+
+            Route::prefix('/percent-delta')->group(static function () {
+                Route::get('/all', 'PercentDeltaController@listAllPercentDeltas')
+                    ->name('api.percent-delta.get-all');
+                Route::get('/{entry_id}', 'PercentDeltaController@getSinglePercentDelta')
+                    ->name('api.percent-delta.get-one');
+
+                Route::put('/{entry_id}/activate', 'PercentDeltaController@activatePercentDelta')
+                    ->name('api.percent-delta.activate');
+                Route::put('/{entry_id}/deactivate', 'PercentDeltaController@deactivatePercentDelta')
+                    ->name('api.percent-delta.deactivate');
+
+                Route::post('/', 'PercentDeltaController@addNewPercentDelta')
+                    ->name('api.percent-delta.add');
+
+                Route::delete('/{entry_id}', 'PercentDeltaController@deletePercentDelta')
+                    ->name('api.percent-delta.delete');
+            });
         });
     });
