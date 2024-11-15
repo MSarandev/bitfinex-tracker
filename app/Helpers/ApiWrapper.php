@@ -6,7 +6,6 @@ use App\Exceptions\ExternalApiCallNotSuccessfulException;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use InvalidArgumentException;
 
 class ApiWrapper
 {
@@ -15,10 +14,6 @@ class ApiWrapper
     private string $singleTickerExtension;
     private string $historicalTickerExtension;
     private string $symbolReplacementFlag;
-    private array $acceptedSymbols;
-
-    private array $allowedTimeFrames;
-
 
     public function __construct()
     {
@@ -26,8 +21,6 @@ class ApiWrapper
         $this->singleTickerExtension = config('bitfinex.single_ticker_ext');
         $this->historicalTickerExtension = config('bitfinex.historical_ticker_ext');
         $this->symbolReplacementFlag = config('bitfinex.symbol_replacement_flag');
-        $this->acceptedSymbols = config('bitfinex.symbols');
-        $this->allowedTimeFrames = config('bitfinex.allowed_period_markers');
     }
 
     /**
@@ -41,9 +34,7 @@ class ApiWrapper
     ): string {
         $url = sprintf("%s%s", $this->baseUrl, $this->historicalTickerExtension);
 
-        // else -> set the period
         $limits = $this->buildTimeFrame($from, $to);
-
 
         $response = $this->getClient()->request(
             'GET',
@@ -64,6 +55,11 @@ class ApiWrapper
         return $response->getBody()->getContents();
     }
 
+    /**
+     * @param $from
+     * @param $to
+     * @return null[]
+     */
     private function buildTimeFrame($from, $to): array
     {
         return [
@@ -72,8 +68,10 @@ class ApiWrapper
         ];
     }
 
-    private
-    function getClient(): Client
+    /**
+     * @return Client
+     */
+    private function getClient(): Client
     {
         if (!self::$client) {
             self::$client = new Client();

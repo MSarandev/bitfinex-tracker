@@ -6,10 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class TickerHistorical extends Model
 {
-    public float $bid;
-    public float $ask;
-    public int $mts;
-
     protected $fillable = [
         'bid',
         'ask',
@@ -36,35 +32,5 @@ class TickerHistorical extends Model
     public static function keyFromId($id)
     {
         return self::$apiMarshaller[$id];
-    }
-
-    public function getBid(): float
-    {
-        return $this->bid;
-    }
-
-    public function setBid(float $bid): void
-    {
-        $this->bid = $bid;
-    }
-
-    public function getAsk(): float
-    {
-        return $this->ask;
-    }
-
-    public function setAsk(float $ask): void
-    {
-        $this->ask = $ask;
-    }
-
-    public function getMts(): int
-    {
-        return $this->mts;
-    }
-
-    public function setMts(int $mts): void
-    {
-        $this->mts = $mts;
     }
 }

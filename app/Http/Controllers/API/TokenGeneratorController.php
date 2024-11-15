@@ -2,17 +2,24 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exceptions\TokenGenerationFailedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Auth\NewTokenRequest;
-use App\Models\User;
+use App\Services\TokenGenerationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
 
 class TokenGeneratorController extends Controller
 {
-    private const API_TOKEN_PREFIX = "a_tok_";
-    private const API_TTL_MINUTES = 30;
+    protected TokenGenerationService $tokenGenerationService;
+
+    /**
+     * @param  TokenGenerationService  $tokenGenerationService
+     */
+    public function __construct(TokenGenerationService $tokenGenerationService)
+    {
+        $this->tokenGenerationService = $tokenGenerationService;
+    }
 
     /**
      * @param  NewTokenRequest  $request
@@ -23,37 +30,16 @@ class TokenGeneratorController extends Controller
         $validated = $request->validated();
 
         try {
-            $authUser = $this->checkAuth($validated['email']);
+            $token = $this->tokenGenerationService->newTokenRequest($validated['email']);
 
-            $expiration = now()->addMinutes(self::API_TTL_MINUTES);
-
-            $token = $authUser->createToken(
-                sprintf("%s%d", self::API_TOKEN_PREFIX, time()),
-                ['*'], // TODO: restrict here
-                $expiration
+            return response()->json($token);
+        } catch (TokenGenerationFailedException $e) {
+            Log::error(
+                "Token generation failed for {email}, {e}",
+                ["email" => $validated['email'], 'e' => $e->getMessage()]
             );
 
-            return response()->json(['token' => $token->plainTextToken]);
-        } catch (ValidationException $e) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Token generation failed'], 500);
         }
-    }
-
-    /**
-     * @throws ValidationException
-     */
-    private function checkAuth(string $email): User|null
-    {
-        $user = User::where('email', $email)->first();
-
-        if ($user !== null) {
-            return $user;
-        }
-
-        Log::warning("API Token - Failed login: {email}", ["email" => $email]);
-
-        throw ValidationException::withMessages([
-            'email' => __('auth.failed'),
-        ]);
     }
 }

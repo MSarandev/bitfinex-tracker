@@ -29,8 +29,10 @@ class GetHistoricalDataRequest extends FormRequest
      */
     public function rules(): array
     {
+        $allowedSymbols = config('bitfinex.symbols');
+
         return [
-            'symbol' => 'required|string',
+            'symbol' => 'required|string|in:'.implode(',', $allowedSymbols),
             'from' => 'date',
             'to' => 'date',
         ];
