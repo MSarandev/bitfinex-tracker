@@ -26,6 +26,7 @@ class PriceActionsRepo
         return $this->model
             ->newModelQuery()
             ->where('user_id', $userId)
+            ->where('deleted_at', null)
             ->get();
     }
 
@@ -40,6 +41,7 @@ class PriceActionsRepo
             ->newModelQuery()
             ->where('id', $entryId)
             ->where('user_id', $userId)
+            ->where('deleted_at', null)
             ->firstOrFail();
     }
 
@@ -65,6 +67,7 @@ class PriceActionsRepo
             ->newModelQuery()
             ->where('id', $entryId)
             ->where('user_id', $userId)
+            ->where('deleted_at', null)
             ->firstOrFail();
 
         if ($entry->active === 0) {
@@ -85,6 +88,7 @@ class PriceActionsRepo
             ->newModelQuery()
             ->where('id', $entryId)
             ->where('user_id', $userId)
+            ->where('deleted_at', null)
             ->firstOrFail();
 
         if ($entry->active === 1) {
@@ -105,7 +109,7 @@ class PriceActionsRepo
             ->newModelQuery()
             ->where('id', $entryId)
             ->where('user_id', $userId)
-            ->delete();
+            ->update(['deleted_at' => now()]);
     }
 
     /**
@@ -116,6 +120,7 @@ class PriceActionsRepo
         return $this->model
             ->newModelQuery()
             ->where('active', 1)
+            ->where('deleted_at', null)
             ->get();
     }
 }
