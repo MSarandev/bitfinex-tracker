@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Exceptions\TokenGenerationFailedException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\Auth\NewTokenRequest;
+use App\Http\Requests\Auth\NewTokenRequest;
 use App\Services\TokenGenerationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;

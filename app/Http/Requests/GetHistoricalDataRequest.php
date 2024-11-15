@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\API\Auth;
+namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewTokenRequest extends FormRequest
+class GetHistoricalDataRequest extends FormRequest
 {
     /**
      * Indicates if the validator should stop on the first rule failure.
@@ -29,11 +29,20 @@ class NewTokenRequest extends FormRequest
      */
     public function rules(): array
     {
+        $allowedSymbols = config('bitfinex.symbols');
+
         return [
-            'email' => 'required|string|email',
-            'password' => 'required|string'
+            'symbol' => 'required|string|in:'.implode(',', $allowedSymbols),
+            'from' => 'date',
+            'to' => 'date',
         ];
     }
 
-    // TODO: add rate limiter here
+    public function messages(): array
+    {
+        return [
+            'from.date' => 'Datetime should comply with the ISO-8601 format -> '.DATE_ATOM,
+            'to.date' => 'Datetime should comply with the ISO-8601 format -> '.DATE_ATOM,
+        ];
+    }
 }

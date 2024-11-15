@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Exceptions\ExternalApiCallNotSuccessfulException;
 use App\Helpers\ApiWrapper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\GetHistoricalDataRequest;
+use App\Http\Requests\GetHistoricalDataRequest;
 use App\Models\TickerHistorical;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
