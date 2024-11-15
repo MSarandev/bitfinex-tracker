@@ -15,12 +15,15 @@ class ApiWrapper
     private string $historicalTickerExtension;
     private string $symbolReplacementFlag;
 
+    private int $maxLimit;
+
     public function __construct()
     {
         $this->baseUrl = config('bitfinex.base_url');
         $this->singleTickerExtension = config('bitfinex.single_ticker_ext');
         $this->historicalTickerExtension = config('bitfinex.historical_ticker_ext');
         $this->symbolReplacementFlag = config('bitfinex.symbol_replacement_flag');
+        $this->maxLimit = config('bitfinex.max_limit');
     }
 
     /**
@@ -44,6 +47,7 @@ class ApiWrapper
                     'symbols' => $symbol,
                     $limits['from'] === null ?: 'start' => $limits['from'],
                     $limits['to'] === null ?: 'end' => $limits['to'],
+                    'limit' => $this->maxLimit,
                 ]
             ]
         );

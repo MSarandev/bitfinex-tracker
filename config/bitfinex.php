@@ -8,5 +8,7 @@ return [
     "symbols" => [
         "tBTCUSD",
         "tBTCEUR",
-    ]
+    ],
+    "max_limit" => 250,
+    "max_requests_per_minute" => 90
 ];
