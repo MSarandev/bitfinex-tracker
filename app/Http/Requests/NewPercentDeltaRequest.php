@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class NewPercentDeltaRequest extends FormRequest
 {
-    private const TIMEFRAME_FLAGS = ["D", "W", "M", "Y"];
+    private const TIMEFRAME_FLAGS = ["H", "D", "W", "M", "Y"];
 
     /**
      * Determine if the user is authorized to make this request.
