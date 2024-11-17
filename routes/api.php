@@ -13,6 +13,9 @@ Route::namespace('App\Http\Controllers\API')
             Route::prefix('/historical')->group(static function () {
                 Route::get('/', 'HistoricalDataController@getHistoricalData')
                     ->name('api.historical.get');
+
+                Route::get('/dashboard', 'HistoricalDataController@loadDashboardData')
+                    ->name('api.historical.get');
             });
 
             Route::prefix('/price-action')->group(static function () {

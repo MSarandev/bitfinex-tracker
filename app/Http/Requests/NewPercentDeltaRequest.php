@@ -13,6 +13,13 @@ class NewPercentDeltaRequest extends FormRequest
     private const TIMEFRAME_FLAGS = ["H"];
 
     /**
+     * Indicates if the validator should stop on the first rule failure.
+     *
+     * @var bool
+     */
+    protected $stopOnFirstFailure = true;
+
+    /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool

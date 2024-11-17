@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SinglePriceActionRequest extends FormRequest
+class LoadDashboardDataRequest extends FormRequest
 {
     /**
      * Indicates if the validator should stop on the first rule failure.
@@ -13,17 +13,6 @@ class SinglePriceActionRequest extends FormRequest
      * @var bool
      */
     protected $stopOnFirstFailure = true;
-
-    /**
-     * @return array
-     */
-    public function all($keys = null)
-    {
-        $data = parent::all();
-        $data['entry_id'] = $this->route('entry_id');
-
-        return $data;
-    }
 
     /**
      * Determine if the user is authorized to make this request.
@@ -40,8 +29,10 @@ class SinglePriceActionRequest extends FormRequest
      */
     public function rules(): array
     {
+        $allowedSymbols = config('bitfinex.symbols');
+
         return [
-            'entry_id' => 'required|int'
+            'symbol' => 'required|string|in:'.implode(',', $allowedSymbols),
         ];
     }
 }

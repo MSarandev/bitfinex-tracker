@@ -10,6 +10,13 @@ class NewPriceActionRequest extends FormRequest
     const ALLOWED_TRIGGERS = ['above', 'below'];
 
     /**
+     * Indicates if the validator should stop on the first rule failure.
+     *
+     * @var bool
+     */
+    protected $stopOnFirstFailure = true;
+
+    /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool

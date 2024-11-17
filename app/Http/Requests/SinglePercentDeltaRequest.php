@@ -8,6 +8,13 @@ use Illuminate\Foundation\Http\FormRequest;
 class SinglePercentDeltaRequest extends FormRequest
 {
     /**
+     * Indicates if the validator should stop on the first rule failure.
+     *
+     * @var bool
+     */
+    protected $stopOnFirstFailure = true;
+
+    /**
      * @return array
      */
     public function all($keys = null)
