@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Exceptions\MissingLatestPricesException;
 use App\Scheduled\PriceActionNotificationGenerator;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 
 class PriceActionNotifications extends Command
 {
@@ -21,7 +20,7 @@ class PriceActionNotifications extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Triggers the price action notifications';
 
     /**
      * Execute the console command.

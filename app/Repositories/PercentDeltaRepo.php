@@ -123,4 +123,14 @@ class PercentDeltaRepo
             ->where('deleted_at', null)
             ->get();
     }
+
+    /**
+     * @return Collection
+     */
+    public static function getAllStatic(): Collection
+    {
+        return PercentDelta::where('active', 1)
+            ->where('deleted_at', null)
+            ->get();
+    }
 }

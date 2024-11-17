@@ -1,5 +1,6 @@
 <?php
 
+use App\Scheduled\PercentDeltaNotificationGenerator;
 use App\Scheduled\PriceActionChecker;
 use App\Scheduled\PriceActionNotificationGenerator;
 use Illuminate\Foundation\Application;
@@ -29,6 +30,11 @@ return Application::configure(basePath: dirname(__DIR__))
         # Notification generation - price action
         $schedule->call(function () {
             PriceActionNotificationGenerator::generateEvents();
+        })->everyMinute();
+
+        # Notification generation - percent change
+        $schedule->call(function () {
+            PercentDeltaNotificationGenerator::generateEvents();
         })->everyMinute();
 
         $schedule->command('cache:clear')->daily();

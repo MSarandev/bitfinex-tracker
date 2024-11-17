@@ -91,11 +91,8 @@ Use the `New Percent delta` request in the postman collection: `{{app_url}}v1/pe
 to create one
 
 If a percent delta is confirmed an email will be sent by an agent<br>
-Manual triggering for testing can be done by running the command: `php artisan app:percent-delta-notifications` in the
+Manual triggering for testing can be done by running the command: `php artisan app:percent-change-notifications` in the
 `app` container
-
-**NOTE:** As the percent delta's can only be set from `DAY` onwards, the agent runs once a day. <br>
-Use the above command in the `app` container to test this functionality!
 
 ### Activation/Deactivation
 

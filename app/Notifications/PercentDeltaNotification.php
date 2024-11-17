@@ -7,7 +7,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Env;
 
-class PriceActionNotification extends Notification
+class PercentDeltaNotification extends Notification
 {
     use Queueable;
 
@@ -37,8 +37,8 @@ class PriceActionNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('Price action alert!')
-            ->line('Your price action alert has triggered.')
+            ->line('Percent change alert!')
+            ->line('Your percent change alert has triggered.')
             ->line(sprintf('Your config: %s', $this->userConfig))
             ->action('Check the current prices here', Env::get('APP_URL').'/');
     }

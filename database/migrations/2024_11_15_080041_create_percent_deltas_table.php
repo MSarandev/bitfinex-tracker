@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public const TIMEFRAME_FLAGS = ["D", "W", "M", "Y"];
+    public const TIMEFRAME_FLAGS = ["H", "D", "W", "M", "Y"];
 
     /**
      * Run the migrations.

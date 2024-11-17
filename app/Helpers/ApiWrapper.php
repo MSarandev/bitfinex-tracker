@@ -40,12 +40,20 @@ class ApiWrapper
         string $symbol,
         string $from = null,
         string $to = null,
+        bool $preParsedTimeFrame = false
     ): string {
         $this->apiHealth();
 
         $url = sprintf("%s%s", $this->baseUrl, $this->historicalTickerExtension);
 
-        $limits = $this->buildTimeFrame($from, $to);
+        if (!$preParsedTimeFrame) {
+            $limits = $this->buildTimeFrame($from, $to);
+        } else {
+            $limits = [
+                'from' => $from,
+                'to' => $to,
+            ];
+        }
 
         $response = $this->getClient()->request(
             'GET',
@@ -59,6 +67,7 @@ class ApiWrapper
                 ]
             ]
         );
+
 
         if ($response->getStatusCode() !== 200) {
             throw new ExternalApiCallNotSuccessfulException();
