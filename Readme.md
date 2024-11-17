@@ -107,3 +107,6 @@ You can further re-activate it with `Activate price action` request
 
 You can fully delete a price action record by calling the `Delete price action` request
 `DELETE {{app_url}}v1/percent-delta/1`
+
+# Documentation
+Auto-generated docs by <a href="https://scramble.dedoc.co/">SCRAMBLE</a>: <br> http://localhost:8088/docs/api
