@@ -29,6 +29,8 @@ All emails are captured by `MailHog`, UI dash: http://localhost:8025/
 The app requires a registration, please register at `http://localhost:8088/register` first <br>
 After registration, you will be redirected to the login page, login, and you will be redirected to the dashboard
 
+**NOTE** You can **ONLY** register through the UI for now!!!
+
 <br>
 
 All subsequent API calls require a token. Get one:
@@ -110,3 +112,7 @@ You can fully delete a price action record by calling the `Delete price action` 
 
 # Documentation
 Auto-generated docs by <a href="https://scramble.dedoc.co/">SCRAMBLE</a>: <br> http://localhost:8088/docs/api
+
+# Postman
+A postman collection is included called - `postmanCollection`. You can import it and use all the requests inside. 
+**NOTE** Remember to register through the UI first!!!

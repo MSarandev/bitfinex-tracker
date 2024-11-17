@@ -1,0 +1,511 @@
+{
+	"info": {
+		"_postman_id": "ec7a399e-1c79-4f34-b7e4-39c9752504d1",
+		"name": "Ampeco - demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7428469"
+	},
+	"item": [
+		{
+			"name": "Price action",
+			"item": [
+				{
+					"name": "New price action",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "trigger",
+									"value": "above",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "91401",
+									"type": "text"
+								},
+								{
+									"key": "symbol",
+									"value": "tBTCUSD",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{app_url}}v1/price-action",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"price-action"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app_url}}v1/price-action/all",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"price-action",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app_url}}v1/price-action/5",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"price-action",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate price action",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app_url}}v1/price-action/1/activate",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"price-action",
+								"1",
+								"activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate price action",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app_url}}v1/price-action/1/deactivate",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"price-action",
+								"1",
+								"deactivate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete price action",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app_url}}v1/price-action/5",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"price-action",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Percent delta",
+			"item": [
+				{
+					"name": "New percent delta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "timeframe_flags",
+									"value": "D",
+									"type": "text"
+								},
+								{
+									"key": "timeframe_value",
+									"value": "12",
+									"type": "text"
+								},
+								{
+									"key": "percent_change",
+									"value": "15",
+									"type": "text"
+								},
+								{
+									"key": "symbol",
+									"value": "tBTCEUR",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{app_url}}v1/percent-delta",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"percent-delta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app_url}}v1/percent-delta/all",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"percent-delta",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app_url}}v1/percent-delta/1",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"percent-delta",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate percent delta",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app_url}}v1/percent-delta/1/activate",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"percent-delta",
+								"1",
+								"activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate percent delta",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app_url}}v1/percent-delta/1/deactivate",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"percent-delta",
+								"1",
+								"deactivate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete percent delta",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app_url}}v1/percent-delta/1",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"percent-delta",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FE Data provider",
+			"item": [
+				{
+					"name": "Get historical ticker data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app_url}}v1/historical?symbol=tBTCUSD&from=2019-11-12T15:24:06Z&to=2024-11-13T15:24:06Z",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"historical"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "tBTCUSD"
+								},
+								{
+									"key": "from",
+									"value": "2019-11-12T15:24:06Z"
+								},
+								{
+									"key": "to",
+									"value": "2024-11-13T15:24:06Z"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dashboard data provider",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app_url}}v1/historical/dashboard?symbol=tBTCUSD",
+							"host": [
+								"{{app_url}}v1"
+							],
+							"path": [
+								"historical",
+								"dashboard"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "tBTCUSD"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Token auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "{{email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{pass}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{app_url}}v1/token",
+					"host": [
+						"{{app_url}}v1"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{api_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
