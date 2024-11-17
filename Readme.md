@@ -40,6 +40,9 @@ POST localhost:8088/api/v1/token
 
 From there-on, use the token string as a `Bearer token` auth in subsequent requests
 
+The token has a TTL of 90 minutes by default. <br>
+Only one token can be active at a time, if you request a new one, the old one(s) are deleted!
+
 ## Scheduling
 
 The app supports out-of-the-box scheduling with a custom `schedule` container. <br>
