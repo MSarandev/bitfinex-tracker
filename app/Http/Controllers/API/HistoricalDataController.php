@@ -2,48 +2,41 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Exceptions\ExternalApiCallNotSuccessfulException;
-use App\Exceptions\ExternalApiNotHealthyException;
-use App\Helpers\ApiWrapper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetHistoricalDataRequest;
-use App\Models\TickerHistorical;
+use App\Services\HistoricalDataService;
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 
 class HistoricalDataController extends Controller
 {
+    private HistoricalDataService $historicalDataService;
+
+    public function __construct(HistoricalDataService $historicalDataService)
+    {
+        $this->historicalDataService = $historicalDataService;
+    }
+
     /**
      * @param  GetHistoricalDataRequest  $request
      * @return JsonResponse
-     * @throws ExternalApiCallNotSuccessfulException
-     * @throws GuzzleException|ExternalApiNotHealthyException
+     * @throws GuzzleException
      */
     public function getHistoricalData(GetHistoricalDataRequest $request): JsonResponse
     {
         $validated = $request->validated();
 
-        $apiWrapper = new ApiWrapper();
+        try {
+            $data = $this->historicalDataService->getHistoricalData(
+                $validated['symbol'],
+                $validated['from'],
+                $validated['to']
+            );
 
-        $response = $apiWrapper->getHistoricalTickerData(
-            $validated['symbol'],
-            $validated['from'] ?? null,
-            $validated['to'] ?? null,
-        );
-
-        $responseStack = [];
-
-
-        foreach (json_decode($response) as $data) {
-            $entry = new TickerHistorical([
-                'bid' => $data[TickerHistorical::idFromKey('bid')],
-                'ask' => $data[TickerHistorical::idFromKey('ask')],
-                'mts' => $data[TickerHistorical::idFromKey('mts')],
-            ]);
-
-            $responseStack[] = $entry;
+            return response()->json(["data" => $data]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        return response()->json($responseStack);
     }
 }
