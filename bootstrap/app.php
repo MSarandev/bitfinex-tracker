@@ -1,8 +1,11 @@
 <?php
 
+use App\Scheduled\PriceActionChecker;
+use App\Scheduled\PriceActionNotificationGenerator;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Console\Scheduling\Schedule;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -16,4 +19,18 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->withSchedule(function (Schedule $schedule) {
+        # Price getter from Bitfinex API
+        $schedule->call(function () {
+            PriceActionChecker::getPrices();
+        })->everyMinute();
+
+        # Notification generation - price action
+        $schedule->call(function () {
+            PriceActionNotificationGenerator::generateEvents();
+        })->everyMinute();
+
+        $schedule->command('cache:clear')->daily();
+    })
+    ->create();

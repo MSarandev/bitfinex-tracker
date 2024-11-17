@@ -25,4 +25,20 @@ class PriceAction extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    /**
+     * @param $price
+     * @return bool
+     */
+    public function isHit($price): bool
+    {
+        $requestedPrice = $this->price;
+        $trigger = $this->trigger;
+
+        if ($trigger === 'above') {
+            return $price > $requestedPrice;
+        }
+
+        return $price < $requestedPrice;
+    }
 }

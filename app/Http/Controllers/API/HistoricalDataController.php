@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Exceptions\ExternalApiCallNotSuccessfulException;
+use App\Exceptions\ExternalApiNotHealthyException;
 use App\Helpers\ApiWrapper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetHistoricalDataRequest;
@@ -16,7 +17,7 @@ class HistoricalDataController extends Controller
      * @param  GetHistoricalDataRequest  $request
      * @return JsonResponse
      * @throws ExternalApiCallNotSuccessfulException
-     * @throws GuzzleException
+     * @throws GuzzleException|ExternalApiNotHealthyException
      */
     public function getHistoricalData(GetHistoricalDataRequest $request): JsonResponse
     {

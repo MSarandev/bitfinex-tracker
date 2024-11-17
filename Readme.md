@@ -39,3 +39,71 @@ POST localhost:8088/api/v1/token
 ```
 
 From there-on, use the token string as a `Bearer token` auth in subsequent requests
+
+## Scheduling
+
+The app supports out-of-the-box scheduling with a custom `schedule` container. <br>
+After the normal `docker compose up --build` you'll see the scheduler, which switches between
+serving php-fpm and the scheduler<br>
+
+## Emails
+
+All emails are captured by `MailHog`, UI dash: http://localhost:8025/
+
+# Feature requests
+
+## Price action
+
+A price action allows you as a user to subscribe to changes in price for a given symbol
+in both `above` and `below` states. <br>
+
+Use the `New Price Action` request in the postman collection: `{{app_url}}v1/price-action`
+
+If a price action is confirmed an email will be sent by an agent<br>
+Manual triggering for testing can be done by running the command: `php artisan app:price-action-notifications` in the
+`app` container
+
+The above trigger is checked every minute by the scheduler, thus email spam is expected :)
+
+### Activation/Deactivation
+
+The price action record remains `active` until you disable it. <br>
+You can do so with the `Deactivate price action` request in the postman collection
+`PUT {{app_url}}v1/price-action/1/deactivate`
+
+You can further re-activate it with `Activate price action` request
+`PUT {{app_url}}v1/price-action/1/activate`
+
+### Deletion
+
+You can fully delete a price action record by calling the `Delete price action` request
+`DELETE {{app_url}}v1/price-action/1`
+
+## Percent change
+
+A percent change (percent delta) allows you as a user to subscribe to changes in price for a given symbol
+by a given percentage in a time frame<br>
+
+Use the `New Percent delta` request in the postman collection: `{{app_url}}v1/percent-delta`
+to create one
+
+If a percent delta is confirmed an email will be sent by an agent<br>
+Manual triggering for testing can be done by running the command: `php artisan app:percent-delta-notifications` in the
+`app` container
+
+**NOTE:** As the percent delta's can only be set from `DAY` onwards, the agent runs once a day. <br>
+Use the above command in the `app` container to test this functionality!
+
+### Activation/Deactivation
+
+The percent delta record remains `active` until you disable it. <br>
+You can do so with the `Deactivate price action` request in the postman collection
+`PUT {{app_url}}v1/percent-delta/1/deactivate`
+
+You can further re-activate it with `Activate price action` request
+`PUT {{app_url}}v1/percent-delta/1/activate`
+
+### Deletion
+
+You can fully delete a price action record by calling the `Delete price action` request
+`DELETE {{app_url}}v1/percent-delta/1`

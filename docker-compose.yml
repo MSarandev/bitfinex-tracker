@@ -1,14 +1,4 @@
 services:
-    app:
-        build:
-            context: docker
-            dockerfile: app/Dockerfile
-        container_name: bitfinex_app
-        volumes:
-            - ".:/var/www/html"
-        working_dir: /var/www/html
-        networks:
-            - bitfinex_tracker_net
     web:
         build:
             context: docker
@@ -45,6 +35,34 @@ services:
             - ${DB_EXPOSED_PORT}:3306
         networks:
             - bitfinex_tracker_net
+    app:
+        build:
+            context: docker
+            dockerfile: app/Dockerfile
+        container_name: bitfinex_app
+        volumes:
+            - ".:/var/www/html"
+        working_dir: /var/www/html
+        environment:
+            CONTAINER_ROLE: app
+        networks:
+            - bitfinex_tracker_net
+    scheduler:
+        container_name: scheduler
+        build:
+            context: docker
+            dockerfile: app/Dockerfile
+        restart: always
+        tty: true
+        environment:
+            COLORTERM: true
+            CONTAINER_ROLE: scheduler
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - bitfinex_tracker_net
+        depends_on:
+            - app
 networks:
     bitfinex_tracker_net:
         external: true

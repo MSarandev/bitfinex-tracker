@@ -13,3 +13,13 @@ COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
 # Node install
 RUN curl -sL https://deb.nodesource.com/setup_23.x  | bash - \
    && apt-get -y install nodejs
+
+# Add start script / entrypoint
+COPY app/start.sh /usr/local/bin/start
+RUN chmod u+x /usr/local/bin/start
+
+# Set Workdir
+WORKDIR /var/www/html
+
+# Entrypoint
+ENTRYPOINT ["/usr/local/bin/start"]

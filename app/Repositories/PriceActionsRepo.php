@@ -123,4 +123,14 @@ class PriceActionsRepo
             ->where('deleted_at', null)
             ->get();
     }
+
+    /**
+     * @return Collection
+     */
+    public static function getAllActiveStatic(): Collection
+    {
+        return PriceAction::where('active', 1)
+            ->where('deleted_at', null)
+            ->get();
+    }
 }
