@@ -8,16 +8,28 @@ Note: The whole app is docker based, nothing is installed and/or operated on fro
 
 1. `cp .env.example .env`
 2. Change vars as needed
+    1. The key ones are the DB vars, set them before you proceed!
 3. `docker network create bitfinex_tracker_net`
 4. `docker compose up --build -d`
 5. Generate an application key
     1. `docker compose exec app bash`
-    2. `php artisan key:generate`
+    2. `composer install`
+    3. `php artisan key:generate`
 6. Run the migrations
     1. `docker compose exec app bash`
     2. `php artisan migrate` or `php artisan migrate:fresh`
+7. Set up the UI
+    1. `docker compose exec app bash`
+    2. `npm install`
+    3. `npm run build`
+8. Register at: `http://localhost:8088/register`
+9. Import the Postman collection to use all the API requests
+10. Import the Postman ENV and replace your creds
+11. Get an auth token, set it in the ENV and explore
 
 The app is available at: http://localhost:8088/ (change to your custom port)
+Mail UI: http://localhost:8025/
+API docs: http://localhost:8088/docs/api
 
 ## Auth
 
@@ -111,27 +123,33 @@ You can fully delete a price action record by calling the `Delete price action` 
 `DELETE {{app_url}}v1/percent-delta/1`
 
 # Documentation
+
 Auto-generated docs by <a href="https://scramble.dedoc.co/">SCRAMBLE</a>: <br> http://localhost:8088/docs/api
 
 # Postman
-A postman collection is included called - `postmanCollection`. You can import it and use all the requests inside. 
+
+A postman collection is included called - `postmanCollection`. You can import it and use all the requests inside.
 **NOTE** Remember to register through the UI first!!!
 
 # Tests
+
 Code coverage reached - 49.3%
 
 From within the `app` container run either:
+
 ```text
 php artisan test --coverage --parallel --processes=4 --testsuite=Unit --stop-on-failure
 php artisan test --coverage --parallel --processes=4 --testsuite=Feature --stop-on-failure
 ```
 
 Or if you want to run the whole suite:
+
 ```text
 php artisan test --coverage --parallel --processes=4 --stop-on-failure
 ```
 
 Single test files can be executed like:
+
 ```text
  php artisan test tests/Feature/Controllers/API/PercentDeltaControllerTest.php
 ```
