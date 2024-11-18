@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Exceptions\TokenGenerationFailedException;
 use App\Models\Dtos\ApiTokenDto;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
@@ -23,7 +24,7 @@ class TokenGenerationService
             $authUser = $this->checkAuth($email);
 
             return $this->generateToken($authUser);
-        } catch (ValidationException $e) {
+        } catch (ValidationException|ModelNotFoundException $e) {
             throw new TokenGenerationFailedException($e);
         }
     }
@@ -71,16 +72,6 @@ class TokenGenerationService
      */
     private function checkAuth(string $email): User|null
     {
-        $user = User::where('email', $email)->firstOrFail();
-
-        if ($user !== null) {
-            return $user;
-        }
-
-        Log::warning("API Token - Failed login: {email}", ["email" => $email]);
-
-        throw ValidationException::withMessages([
-            'email' => __('auth.failed'),
-        ]);
+        return User::where('email', $email)->firstOrFail();
     }
 }

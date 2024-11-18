@@ -6,29 +6,29 @@ use App\Exceptions\ExternalApiCallNotSuccessfulException;
 use App\Exceptions\ExternalApiNotHealthyException;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 
 class ApiWrapper
 {
-    private static $client;
-    private string $baseUrl;
-    private string $singleTickerExtension;
-    private string $historicalTickerExtension;
-    private string $healthExtension;
-    private string $healthOkVerification;
-    private string $symbolReplacementFlag;
+    public Client $client;
+    public string $baseUrl;
+    public string $singleTickerExtension;
+    public string $historicalTickerExtension;
+    public string $healthExtension;
+    public string $healthOkVerification;
 
-    private int $maxLimit;
+    public int $maxLimit;
 
     public function __construct()
     {
+        $this->client = new Client();
         $this->baseUrl = config('bitfinex.base_url');
         $this->singleTickerExtension = config('bitfinex.single_ticker_ext');
         $this->historicalTickerExtension = config('bitfinex.historical_ticker_ext');
         $this->healthExtension = config('bitfinex.health_ext');
         $this->healthOkVerification = config('bitfinex.health_ok_verification');
-        $this->symbolReplacementFlag = config('bitfinex.symbol_replacement_flag');
         $this->maxLimit = config('bitfinex.max_limit');
     }
 
@@ -55,25 +55,31 @@ class ApiWrapper
             ];
         }
 
-        $response = $this->getClient()->request(
-            'GET',
-            $url,
-            [
-                'query' => [
-                    'symbols' => $symbol,
-                    $limits['from'] === null ?: 'start' => $limits['from'],
-                    $limits['to'] === null ?: 'end' => $limits['to'],
-                    'limit' => $this->maxLimit,
+        try {
+            $response = $this->client->request(
+                'GET',
+                $url,
+                [
+                    'query' => [
+                        'symbols' => $symbol,
+                        $limits['from'] === null ?: 'start' => $limits['from'],
+                        $limits['to'] === null ?: 'end' => $limits['to'],
+                        'limit' => $this->maxLimit,
+                    ]
                 ]
-            ]
-        );
+            );
 
 
-        if ($response->getStatusCode() !== 200) {
+            if ($response->getStatusCode() !== 200) {
+                throw new ExternalApiCallNotSuccessfulException();
+            }
+
+            return $response->getBody()->getContents();
+        } catch (ClientException $e) {
+            Log::error('External API call failed: '.$e->getMessage());
+
             throw new ExternalApiCallNotSuccessfulException();
         }
-
-        return $response->getBody()->getContents();
     }
 
     /**
@@ -89,21 +95,27 @@ class ApiWrapper
 
         $url = sprintf("%s%s", $this->baseUrl, $this->singleTickerExtension);
 
-        $response = $this->getClient()->request(
-            'GET',
-            $url,
-            [
-                'query' => [
-                    'symbol' => $symbol,
+        try {
+            $response = $this->client->request(
+                'GET',
+                $url,
+                [
+                    'query' => [
+                        'symbol' => $symbol,
+                    ]
                 ]
-            ]
-        );
+            );
 
-        if ($response->getStatusCode() !== 200) {
+            if ($response->getStatusCode() !== 200) {
+                throw new ExternalApiCallNotSuccessfulException();
+            }
+
+            return $response->getBody()->getContents();
+        } catch (ClientException $e) {
+            Log::error('External API call failed: '.$e->getMessage());
+
             throw new ExternalApiCallNotSuccessfulException();
         }
-
-        return $response->getBody()->getContents();
     }
 
     /**
@@ -120,18 +132,6 @@ class ApiWrapper
     }
 
     /**
-     * @return Client
-     */
-    private function getClient(): Client
-    {
-        if (!self::$client) {
-            self::$client = new Client();
-        }
-
-        return self::$client;
-    }
-
-    /**
      * @throws ExternalApiNotHealthyException
      * @throws GuzzleException
      */
@@ -139,7 +139,7 @@ class ApiWrapper
     {
         $url = sprintf("%s%s", $this->baseUrl, $this->healthExtension);
 
-        $response = $this->getClient()->request(
+        $response = $this->client->request(
             'GET',
             $url,
         );
