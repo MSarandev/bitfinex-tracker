@@ -118,8 +118,20 @@ A postman collection is included called - `postmanCollection`. You can import it
 **NOTE** Remember to register through the UI first!!!
 
 # Tests
+Code coverage reached - 49.3%
+
 From within the `app` container run either:
 ```text
 php artisan test --coverage --parallel --processes=4 --testsuite=Unit --stop-on-failure
 php artisan test --coverage --parallel --processes=4 --testsuite=Feature --stop-on-failure
+```
+
+Or if you want to run the whole suite:
+```text
+php artisan test --coverage --parallel --processes=4 --stop-on-failure
+```
+
+Single test files can be executed like:
+```text
+ php artisan test tests/Feature/Controllers/API/PercentDeltaControllerTest.php
 ```

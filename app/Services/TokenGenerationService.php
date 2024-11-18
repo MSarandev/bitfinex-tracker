@@ -3,10 +3,10 @@
 namespace App\Services;
 
 use App\Exceptions\TokenGenerationFailedException;
+use App\Exceptions\UserNotFoundException;
 use App\Models\Dtos\ApiTokenDto;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class TokenGenerationService
@@ -24,7 +24,7 @@ class TokenGenerationService
             $authUser = $this->checkAuth($email);
 
             return $this->generateToken($authUser);
-        } catch (ValidationException|ModelNotFoundException $e) {
+        } catch (ValidationException|ModelNotFoundException|UserNotFoundException $e) {
             throw new TokenGenerationFailedException($e);
         }
     }
@@ -68,10 +68,17 @@ class TokenGenerationService
 
     /**
      * Check if the user is authenticated
-     * @throws ValidationException
+     * @throws ValidationException|UserNotFoundException
      */
     private function checkAuth(string $email): User|null
     {
-        return User::where('email', $email)->firstOrFail();
+        $user = User::where('email', $email)
+            ->first();
+
+        if ($user === null) {
+            throw new UserNotFoundException();
+        }
+
+        return $user;
     }
 }

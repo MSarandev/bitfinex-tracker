@@ -5,13 +5,10 @@ namespace Tests\Feature\Services;
 use App\Exceptions\TokenGenerationFailedException;
 use App\Models\User;
 use App\Services\TokenGenerationService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TokenGenerationServiceTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected TokenGenerationService $service;
 
     /**

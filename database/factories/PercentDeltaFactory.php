@@ -18,7 +18,7 @@ class PercentDeltaFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => fake()->numberBetween(1, 100000),
+            'id' => fake()->unique()->numberBetween(1, 100000),
             'user_id' => fake()->numberBetween(1, 100000),
             'timeframe_flag' => 'H',
             'timeframe_value' => fake()->numberBetween(1, 23),

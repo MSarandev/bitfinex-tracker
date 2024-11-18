@@ -7,7 +7,6 @@ use App\Exceptions\ExternalApiNotHealthyException;
 use App\Helpers\ApiWrapper;
 use App\Models\TickerHistorical;
 use GuzzleHttp\Exception\GuzzleException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HistoricalDataService
 {

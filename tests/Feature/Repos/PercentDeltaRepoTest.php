@@ -5,12 +5,10 @@ namespace Tests\Feature\Repos;
 use App\Models\PercentDelta;
 use App\Models\User;
 use App\Repositories\PercentDeltaRepo;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PercentDeltaRepoTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected PercentDeltaRepo $repo;
     protected User $user;

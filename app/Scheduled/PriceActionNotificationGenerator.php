@@ -9,6 +9,7 @@ use App\Notifications\PriceActionNotification;
 use App\Repositories\PriceActionsRepo;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -51,7 +52,7 @@ class PriceActionNotificationGenerator
 
                 try {
                     $user = self::findUser($priceAction->user_id);
-                } catch (Exception $e) {
+                } catch (Exception|QueryException $e) {
                     Log::error(sprintf('User with id %d not found', $priceAction->user_id));
                     continue;
                 }
