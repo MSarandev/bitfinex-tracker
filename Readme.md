@@ -116,3 +116,10 @@ Auto-generated docs by <a href="https://scramble.dedoc.co/">SCRAMBLE</a>: <br> h
 # Postman
 A postman collection is included called - `postmanCollection`. You can import it and use all the requests inside. 
 **NOTE** Remember to register through the UI first!!!
+
+# Tests
+From within the `app` container run either:
+```text
+php artisan test --coverage --parallel --processes=4 --testsuite=Unit --stop-on-failure
+php artisan test --coverage --parallel --processes=4 --testsuite=Feature --stop-on-failure
+```
